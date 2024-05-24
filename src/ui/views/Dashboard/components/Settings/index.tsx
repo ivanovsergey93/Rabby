@@ -716,19 +716,6 @@ const SettingsInner = ({
           },
         },
         {
-          leftIcon: RcIconSettingsFeatureConnectedDapps,
-          content: t('page.dashboard.settings.features.connectedDapp'),
-          onClick: () => {
-            setConnectedDappsVisible(true);
-            matomoRequestEvent({
-              category: 'Setting',
-              action: 'clickToUse',
-              label: 'Connected Dapps',
-            });
-            reportSettings('Connected Dapps');
-          },
-        },
-        {
           leftIcon: RcIconSettingsSearchDapps,
           content: t('page.dashboard.settings.features.searchDapps'),
           onClick: () => {
@@ -739,6 +726,19 @@ const SettingsInner = ({
             });
             reportSettings('Search Dapps');
             openInternalPageInTab('dapp-search');
+          },
+        },
+        {
+          leftIcon: RcIconSettingsFeatureConnectedDapps,
+          content: t('page.dashboard.settings.features.connectedDapp'),
+          onClick: () => {
+            setConnectedDappsVisible(true);
+            matomoRequestEvent({
+              category: 'Setting',
+              action: 'clickToUse',
+              label: 'Connected Dapps',
+            });
+            reportSettings('Connected Dapps');
           },
         },
       ] as SettingItem[],
