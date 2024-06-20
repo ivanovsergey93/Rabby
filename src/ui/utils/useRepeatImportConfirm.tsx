@@ -7,6 +7,9 @@ import AddressItem from '@/ui/component/AccountSearchInput/AddressItem';
 import { useRabbyDispatch, useRabbySelector } from '@/ui/store';
 import './confirmPopup.less';
 
+type NullFunction = () => void;
+let cleanup: NullFunction | undefined;
+
 export const useRepeatImportConfirm = () => {
   const wallet = useWallet();
   const { t } = useTranslation();
@@ -28,8 +31,12 @@ export const useRepeatImportConfirm = () => {
       (item) => isSameAddress(item.address, address) && item.type === type
     );
 
+    if (cleanup) {
+      cleanup();
+    }
+
     if (account) {
-      modal.confirm({
+      cleanup = modal.confirm({
         title: t('page.newAddress.privateKey.repeatImportTips'),
         content: (
           <AddressItem
@@ -49,7 +56,7 @@ export const useRepeatImportConfirm = () => {
         width: 360,
         centered: true,
         className: 'confirm-modal',
-      });
+      }).destroy;
     }
   };
   return {
