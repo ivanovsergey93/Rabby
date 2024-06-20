@@ -22,6 +22,7 @@ import { ProtocolListItem } from './components/ProtocolListItem';
 import { SubCol, SubRow, SubTable } from './components/SubTable';
 import { Divide } from '../Divide';
 import { ReactComponent as IconEditPen } from 'ui/assets/edit-pen-cc.svg';
+import IconUnknown from 'ui/assets/token-default.svg';
 
 const Wrapper = styled.div`
   .header {
@@ -99,38 +100,38 @@ const ApproveAmountModal = ({
   }, [visible]);
 
   return (
-    <Form className="mt-16" onFinish={handleSubmit}>
+    <Form className="mt-20" onFinish={handleSubmit}>
       <Form.Item>
         <Input
           value={customAmount}
           onChange={(e) => handleChange(e.target.value)}
           bordered={false}
           className={clsx(
-            'popup-input h-[52px] flex items-center px-16',
+            'popup-input h-[52px] flex items-center px-[12px]',
             'bg-r-neutral-card-1',
             'border border-rabby-neutral-line focus-within:border-rabby-blue-default',
             'transition-all duration-300'
           )}
           addonAfter={
-            <span title={getTokenSymbol(token)}>
-              {ellipsisTokenSymbol(getTokenSymbol(token), 4)}
+            <span
+              className="est-approve-price truncate"
+              title={formatUsdValue(new BigNumber(tokenPrice).toFixed(2))}
+            >
+              ≈
+              {ellipsisOverflowedText(
+                formatUsdValue(new BigNumber(tokenPrice).toFixed()),
+                18,
+                true
+              )}
             </span>
+          }
+          addonBefore={
+            <img src={token.logo_url || IconUnknown} className="w-20 h-20" />
           }
           ref={inputRef}
         />
       </Form.Item>
       <div className="approve-amount-footer overflow-hidden gap-[8px] mb-[32px]">
-        <span
-          className="est-approve-price truncate"
-          title={formatUsdValue(new BigNumber(tokenPrice).toFixed(2))}
-        >
-          ≈
-          {ellipsisOverflowedText(
-            formatUsdValue(new BigNumber(tokenPrice).toFixed()),
-            18,
-            true
-          )}
-        </span>
         {balance && (
           <span
             className="token-approve-balance truncate"
@@ -245,24 +246,23 @@ const TokenApprove = ({
           <Row className="overflow-hidden pl-10">
             <LogoWithText
               id="token-approve-balance"
-              className="overflow-hidden"
+              className={clsx(
+                'rounded-[4px]',
+                'overflow-hidden py-[4px] px-[7px] cursor-pointer',
+                'border-[0.5px] border-rabby-neutral-line',
+                'hover:border-rabby-blue-default hover:bg-r-blue-light1'
+              )}
               logo={actionData.token.logo_url}
               text={
-                <div className="overflow-hidden overflow-ellipsis flex justify-between items-center">
+                <div
+                  onClick={() => setEditApproveModalVisible(true)}
+                  {...editHoverProps}
+                  className="overflow-hidden overflow-ellipsis flex justify-between items-center"
+                >
                   <div className="flex flex-1 overflow-hidden">
                     <Values.TokenAmount value={actionData.token.amount} />
-                    <span className="ml-2">
-                      <Values.TokenSymbol
-                        disableHover={isHoverEdit}
-                        token={requireData.token}
-                      />
-                    </span>
                   </div>
-                  <span
-                    className="text-blue-light text-13 font-medium cursor-pointer ml-4 hover:underline"
-                    onClick={() => setEditApproveModalVisible(true)}
-                    {...editHoverProps}
-                  >
+                  <span className="text-blue-light text-14 font-medium ml-4 hover:underline">
                     <IconEditPen className="text-r-blue-default" />
                   </span>
                 </div>
@@ -392,7 +392,7 @@ const TokenApprove = ({
       <Popup
         visible={editApproveModalVisible}
         className="edit-approve-amount-modal"
-        height={248}
+        height={262}
         title={t('page.signTx.tokenApprove.amountPopupTitle')}
         onCancel={() => setEditApproveModalVisible(false)}
         destroyOnClose
