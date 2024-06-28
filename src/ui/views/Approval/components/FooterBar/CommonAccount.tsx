@@ -4,7 +4,7 @@ import { Signal } from '@/ui/component/Signal';
 
 export interface Props {
   icon: string;
-  iconBrightness?: number;
+  grayIcon?: boolean;
   signal?: 'CONNECTED' | 'DISCONNECTED';
   customSignal?: React.ReactNode;
   tip?: React.ReactNode;
@@ -19,7 +19,7 @@ export const CommonAccount: React.FC<Props> = ({
   customSignal,
   children,
   footer,
-  iconBrightness,
+  grayIcon,
 }) => {
   const bgColor = React.useMemo(() => {
     switch (signal) {
@@ -40,8 +40,8 @@ export const CommonAccount: React.FC<Props> = ({
             src={icon}
             className="w-[20px] h-[20px]"
             style={{
-              filter: iconBrightness
-                ? `brightness(${iconBrightness})`
+              filter: grayIcon
+                ? 'invert(43%) sepia(7%) saturate(335%) hue-rotate(180deg) brightness(92%) contrast(90%)'
                 : 'unset',
             }}
           />
