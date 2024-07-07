@@ -73,9 +73,9 @@ export const AddressBackup = ({ address, type }: Props) => {
       {type === KEYRING_TYPE.HdKeyring ? (
         <div
           className="rabby-list-item cursor-pointer"
-          onClick={() => {
-            handleBackup('mneonics');
-          }}
+          // onClick={() => {
+          //   handleBackup('mneonics');
+          // }}
         >
           <div className="rabby-list-item-content">
             <div className="rabby-list-item-label">
@@ -93,9 +93,9 @@ export const AddressBackup = ({ address, type }: Props) => {
       ) : null}
       <div
         className="rabby-list-item cursor-pointer"
-        onClick={() => {
-          handleBackup('private-key');
-        }}
+        // onClick={() => {
+        //   handleBackup('private-key');
+        // }}
       >
         <div className="rabby-list-item-content">
           <div className="rabby-list-item-label">
